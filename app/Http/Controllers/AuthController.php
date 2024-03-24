@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public addUser(Request $request)
+    public function addUser(Request $request)
     {
         $path = $request->input('pathToFile');
         $nickname = $request->input('nickname');
         $filename = $request->input('filename');
         $type = $request->input('type');
 
-        return true
+        return 'alarm';
     }
 }
