@@ -14,5 +14,7 @@ class AuthController extends Controller
         $nickname = $request->input('nickname');
         $filename = $request->input('filename');
         $type = $request->input('type');
+
+        return true
     }
 }

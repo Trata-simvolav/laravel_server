@@ -18,13 +18,3 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/register', function () {
-    return view('register');
-});
-Route::post('/register', [AuthController::class, 'addUser'])->name('register');
-
-
-Route::get('/dushboard', function () {
-    return view('dashboard');
-});
