@@ -1,4 +1,4 @@
-<!-- 0.1.0 -->
+<!-- 0.1.2 -->
 
 <?php
 
@@ -18,8 +18,15 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Protected Routs
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post("auth/signout", [AuthController::class, 'logout']);
+
+    Route::get("/users/{user}", [UserController::class, 'show']);
+    Route::put("/users", [UserController::class, 'update']);
+    Route::delete("/users", [UserController::class, 'destroy']);
 });
 
-Route::get('/registration', [AuthController::class, 'addUser']);
+// Public Routes
+Route::post("/auth/signup", [AuthController::class, "register"]);
+Route::post("/auth/signin", [AuthController::class, "login"]);

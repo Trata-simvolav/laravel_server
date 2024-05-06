@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Api\V1;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,10 +18,27 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'fio',
+        'birthday',
+        'gender_id',
         'email',
-        'password',
+        'password'
     ];
+
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Review::class);
+    // }
+
+    // public function ratings()
+    // {
+    //     return $this->hasMany(Rating::class);
+    // }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -30,7 +47,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -40,6 +56,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 }
