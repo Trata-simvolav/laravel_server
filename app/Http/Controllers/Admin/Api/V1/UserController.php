@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\Gender;
-use App\Models\Api\User;
+use App\Models\Api\V1\Gender;
+use App\Models\Api\V1\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

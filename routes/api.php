@@ -1,4 +1,4 @@
-<!-- 0.1.2 -->
+<!-- 0.1.3 -->
 
 <?php
 
@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\V1\UserController;
 
 /*
 |--------------------------------------------------------------------------

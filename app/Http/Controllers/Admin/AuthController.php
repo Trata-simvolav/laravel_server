@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Api\User;
+use App\Models\Api\V1\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -13,19 +13,19 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $fields = $request->validate([
-           "fio" => ["required", "string", "min:2", "max:150"],
-            "email" => ["required", "email", Rule::unique("users", "email"), "min:4", "max:50"],
-            "password" => ["required", "string", "min:6", "max:200"],
+            "fio" => ["required", "string", "min:2", "max:150"],
             "birthday" => ["required", "date"],
-            "genderId" => ["required", Rule::exists("genders", "id")]
+            "genderId" => ["required", Rule::exists("genders", "id")],
+            "email" => ["required", "string", Rule::unique("users", "email"), "min:4", "max:50"],
+            "password" => ["required", "string", "min:6", "max:200"]
         ]);
 
-        $user = User::create([
-           'fio' => $fields['fio'],
-           'email' => $fields['email'],
-           'password' => bcrypt($fields['password']),
-            'birthday' => $fields['birthday'],
-            'gender_id' => $fields['genderId']
+        $user = User::create([ 
+            'fio' => $fields['fio'],
+            'birthday' => $fields['birthday'], 
+            'gender_id' => $fields['genderId'],
+            'email' => $fields['email'],
+            'password' => bcrypt($fields['password'])
         ]);
 
         $token = $user->createToken("token")->plainTextToken;
