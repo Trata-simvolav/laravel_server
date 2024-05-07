@@ -106,7 +106,30 @@ class ReviewController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'film_id' => ['required', Rule::exists("films", "id")],
+            'message' => ['required', 'min:4', 'max:1024']
+        ]);
+
+        $userId = auth()->id();
+
+        $review = Review::update([
+            'film_id' => $request->film_id,
+            'user_id' => $userId,
+            'message' => $request->message
+        ]);
+        $film = Film::find($request->film_id);
+
+        return \response([
+            'id' => $review->id,
+            'film' => [
+                'id' => $film->id,
+                'name' => $film->name,
+            ],
+            'message' => $request->message,
+            'isApproved' => $review->is_approved,
+            'createdAt' => $review->created_at
+        ]);
     }
 
     /**

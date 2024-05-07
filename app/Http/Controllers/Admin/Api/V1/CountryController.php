@@ -3,17 +3,29 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\V1\Gender;
+use App\Models\Api\V1\Country;
 use Illuminate\Http\Request;
 
-class GenderController extends Controller
+class CountryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+        public function index()
     {
-        return ["genders" => Gender::all()];
+        $countries = Country::select('id', 'name')
+            ->withCount(['films as filmCount'])
+            ->get()
+            ->map(function($country) {
+                return [
+                    'id' => $country->id,
+                    'name' => $country->name,
+                    'filmCount' => $country->filmCount,
+                ];
+            });
+
+        return response()->json(['countries' => $countries]);
     }
 
     /**
@@ -48,3 +60,5 @@ class GenderController extends Controller
         //
     }
 }
+
+

@@ -69,12 +69,12 @@ class UserController extends Controller
             'genderId' => ['required', Rule::exists('genders', 'id')]
         ]);
 
-            $id = auth()->id();
-            $user = User::find($id);
-            $user->update($request->all());
-            return response([
-                'status' => "success"
-            ]);
+        $id = auth()->id();
+        $user = User::find($id);
+        $user->update($request->all());
+        return response([
+            'status' => "success"
+        ]);
     }
 
     /**
