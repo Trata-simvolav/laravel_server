@@ -1,2 +1,0 @@
-https://laravel.su/docs/8.x/fortify
-

@@ -1,34 +1,41 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Mobile\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Models\Api\V1\Video;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class VideoController extends Controller
 {
-    public function streamVideo($filename)
+    public function getVideo($id)
     {
-        $path = storage_path('app/public/' . $filename);
+        // Находим видео по его идентификатору
+        $video = Video::findOrFail($id);
 
-        if (!Storage::exists($path)) {
-            abort(404);
+        // Получаем путь к файлу видео
+        $videoPath = Storage::disk('public')->path($video->path);
+
+        // Проверяем, существует ли файл
+        if (!Storage::disk('public')->exists($video->path)) {
+            // Если файл не существует, возвращаем ошибку 404
+            return response()->json(['error' => 'Video not found'], 404);
         }
-        return '13213213213213';
 
-        // $file = Storage::get($path);
-        // $type = Storage::mimeType($path);
+        // Создаем объект BinaryFileResponse с указанием пути к файлу
+        $response = new BinaryFileResponse($videoPath);
 
-        // $response = new Response($file, 200);
-        // $response->header('Content-Type', $type);
+        // Устанавливаем заголовки
+        $response->headers->set('Content-Type', 'video/mp4'); // чтоб смотреть
+        // $response->headers->set('Content-Type', 'application/octet-stream'); // чтоб скачать видео
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            basename($videoPath)
+        );
 
-        // return $response;
+        // Возвращаем ответ
+        return $response;
     }
 }
-
-
-// <video width="640" height="360" controls>
-//   <source src="{{ route('stream.video', ['filename' => 'your_video_file.mp4']) }}" type="video/mp4">
-//   Your browser does not support the video tag.
-// </video>

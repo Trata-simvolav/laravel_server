@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Api\V1\User;
+use App\Models\Api\V1\Administrator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +17,7 @@ class AuthController extends Controller
             "password" => ["required", "string"],
         ]);
 
-        $user = User::where('email', $fields['email'])->first();
+        $user = Administrator::where('email', $fields['email'])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return \response([

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mobile\AuthController;
 use App\Http\Controllers\Mobile\Api\V1\UserController;
 
-use App\Http\Controllers\Mobile\Api\V1\VideoController;
+use App\Http\Controllers\Mobile\Api\V1\VideoController; //
 
 /*
 |
@@ -46,4 +46,6 @@ Route::get('/test', function(){
     return view('test_mobile');
 });
 
-Route::get('/video/{filename}', [VideoController::class, "streamVideo"])->name('stream.video');
+Route::get('/video/{id}', [VideoController::class, "getVideo"])->name('video.get');
+
+
