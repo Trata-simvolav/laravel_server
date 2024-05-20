@@ -1,4 +1,4 @@
-<!-- 0.1.5 -->
+<!-- 0.1.6 -->
 
 <?php
 
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Admin\Api\V1\UserController;
 
 use App\Http\Controllers\Mobile\Api\V1\AuthController;
-
+use App\Http\Controllers\Mobile\Api\V1\StreamController;
 
 /*
 |
@@ -39,7 +39,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::post("/users/{user}/ratings", [RatingController::class, 'store']);
     Route::get("/users/{user}/ratings", [RatingController::class, 'index']);
     Route::delete("/users/{user}/ratings/{rating}", [RatingController::class, 'destroy']);
+
+    // ------------------------------  ----------------------------//
+
+    
 });
+
+Route::post('/start-stream', [StreamController::class, 'startStream']);
 
 // Public Routes
 Route::post("/auth/signup", [AuthController::class, "register"]);
