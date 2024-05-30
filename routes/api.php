@@ -55,4 +55,3 @@ Route::post("/auth/signin", [AuthController::class, "login"]);
 Route::get('/test', function(){
     return view('test_admin');
 });
-

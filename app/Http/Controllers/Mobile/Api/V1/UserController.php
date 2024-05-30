@@ -67,6 +67,7 @@ class UserController extends Controller
             'email' => ['required', 'email', 'min:4', 'max:50', Rule::unique('users', 'email')],
             'birthday' => ['required', 'date'],
             'genderId' => ['required', Rule::exists('genders', 'id')]
+            "password" => bcrypt(["required", "string", "min:6", "max:200"])
         ]);
 
             $id = auth()->id();

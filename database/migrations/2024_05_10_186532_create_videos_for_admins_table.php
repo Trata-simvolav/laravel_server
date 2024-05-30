@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_films', function (Blueprint $table) {
+        Schema::create('video_for_admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained("categories");
-            $table->foreignId("film_id")->constrained("films");
+            $table->foreignId("video_id")->constrained("videos");
+            $table->foreignId("user_id")->constrained("users");
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories_films');
+        Schema::dropIfExists('reviws');
     }
 };

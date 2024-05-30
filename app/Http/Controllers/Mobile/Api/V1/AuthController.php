@@ -44,16 +44,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $fields = $request->validate([
-            "email" => ["required", "email"],
+            "fio" => ["required", "string"],
             "password" => ["required", "string"],
         ]);
 
-        $user = User::where('email', $fields['email'])->first();
+        $user = User::where('fio', $fields['fio'])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return \response([
                 "status" => "invalid",
-                "message" => "Wrong email or password"
+                "message" => "Wrong fio or password"
             ], 401);
         }
 
