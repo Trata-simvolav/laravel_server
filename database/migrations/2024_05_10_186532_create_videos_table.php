@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('administrators', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 150)->nullable(false);
-            $table->string("email", 50)->nullable(false)->unique();
-            $table->string('password', 255)->nullable(false);
+            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("action_id")->constrained("actions")->nullable();;
+            $table->string('identification');
+            $table->string('videoname');
+            $table->string('discription');
+            $table->string('NOTNAME');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('administrators');
+        Schema::dropIfExists('reviws');
     }
 };

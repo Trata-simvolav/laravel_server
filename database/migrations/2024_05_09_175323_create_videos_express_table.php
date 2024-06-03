@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('videos_express', function (Blueprint $table) {
             $table->id();
             $table->string('filename');
             $table->string('originalname');
             $table->string('mimetype');
             $table->string('size');
+            $table->string('identification');
             $table->timestamps();
         });
     }

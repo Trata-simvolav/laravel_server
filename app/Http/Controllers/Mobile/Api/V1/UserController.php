@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile;
+namespace App\Http\Controllers\Mobile\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Api\V1\Gender;
@@ -66,7 +66,7 @@ class UserController extends Controller
             'fio' => ['required', 'min:2', 'max:150'],
             'email' => ['required', 'email', 'min:4', 'max:50', Rule::unique('users', 'email')],
             'birthday' => ['required', 'date'],
-            'genderId' => ['required', Rule::exists('genders', 'id')]
+            'genderId' => ['required', Rule::exists('genders', 'id')],
             "password" => bcrypt(["required", "string", "min:6", "max:200"])
         ]);
 

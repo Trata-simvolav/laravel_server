@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Mobile\Api\V1\GenderController;
 // use App\Http\Controllers\Mobile\Api\V1\RatingController;
 // use App\Http\Controllers\Mobile\Api\V1\ReviewController;
-use App\Http\Controllers\Mobile\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Mobile\Api\V1\UserController;
 
 use App\Http\Controllers\Mobile\Api\V1\VideoController; //
