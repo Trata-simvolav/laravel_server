@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Api\V1\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+
+use App\Models\Api\V1\User;
+use App\Models\Api\V1\Action;
 
 class AuthController extends Controller
 {
@@ -27,6 +29,11 @@ class AuthController extends Controller
             'gender_id' => $fields['genderId'],
             'email' => $fields['email'],
             'password' => bcrypt($fields['password'])
+        ]);
+
+        $action = Action::create([
+            'storage_type' => 'u',
+            'data' => []
         ]);
 
         $token = $user->createToken("token")->plainTextToken;

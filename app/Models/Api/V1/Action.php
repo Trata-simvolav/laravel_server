@@ -10,6 +10,7 @@ class Action extends Model
     use HasFactory;
 
     protected $fillable = [
+        'storage_type',
         'data',
     ];
 

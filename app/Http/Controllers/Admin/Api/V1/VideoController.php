@@ -43,13 +43,15 @@ class VideoController extends Controller
 
         $userId = null; // auth()->id()
         
-        $action_id = Action::create([
-            'data' => json_encode([])
-        ]);
+        $action_id = null;
+        // Action::create([
+        //     'storage_type' => 'v',
+        //     'data' => []
+        // ]);
 
         $video_id = Video::create([
             'user_id' => $userId,
-            'action_id' => $action_id->id,
+            'action_id' => $action_id,
             'identification' => $request['identification'],
             'videoname' => $request['videoname'],
             'discription' => $request['discription'],

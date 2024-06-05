@@ -12,6 +12,25 @@ use App\Models\Api\V1\Action;
 
 class VideoController extends Controller
 {
+    public function index()
+    {
+        $videos = Video::all();
+
+        if ($videos->isEmpty()) {
+            return response()->json(['error' => 'No videos found'], 404);
+        }
+    
+        $result = [];
+        foreach ($videos as $video) {
+            $action = $video->action;
+            $json_data = $action ? $action->data : null;
+            $video->json_data = $json_data;
+            $result[] = $video;
+        }
+    
+        return response()->json($result);
+    }
+
     public function show($user_id)
     {
         $videos = Video::where('user_id', $user_id)->get();
