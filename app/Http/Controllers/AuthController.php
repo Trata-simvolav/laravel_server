@@ -21,8 +21,8 @@ class AuthController extends Controller
             "genderId" => ["required", Rule::exists("genders", "id")],
             "email" => ["required", "string", Rule::unique("users", "email"), "min:4", "max:50"],
             "password" => ["required", "string", "min:6", "max:200"]
-        ]);
-
+        ]); // Вот данные для входа
+        
         $user = User::create([ 
             'fio' => $fields['fio'],
             'birthday' => $fields['birthday'], 
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         $action = Action::create([
             'storage_type' => 'u',
-            'data' => []
+            'data' => '[]'
         ]);
 
         $token = $user->createToken("token")->plainTextToken;

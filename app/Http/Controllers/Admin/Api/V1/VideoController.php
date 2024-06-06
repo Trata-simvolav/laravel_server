@@ -38,7 +38,7 @@ class VideoController extends Controller
             'identification' => 'required|string',
             'videoname' => 'required|string',
             'discription' => 'required|string',
-            'NOTNAME' => 'required|string'
+            'subtitle' => 'required|string'
         ]);
 
         $userId = null; // auth()->id()
@@ -55,7 +55,7 @@ class VideoController extends Controller
             'identification' => $request['identification'],
             'videoname' => $request['videoname'],
             'discription' => $request['discription'],
-            'NOTNAME' => $request['NOTNAME'],
+            'subtitle' => $request['subtitle'],
         ]);
 
         return response()->json(['message' => 'Video created successfully'], 201);

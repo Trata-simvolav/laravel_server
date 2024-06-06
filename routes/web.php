@@ -23,6 +23,10 @@ use App\Http\Controllers\Mobile\Api\V1\VideoController; //
 
 // Protected Routs
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/aunt/test', function(){
+        return view('test_for_aunt');
+    });
+
     Route::post("auth/signout", [AuthController::class, 'logout']);
 
     Route::get("/users/{user}", [UserController::class, 'show']);
@@ -37,10 +41,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::get("/users/{user}/reviews", [ReviewController::class, 'index']);
     // Route::delete("/users/{user}/reviews/{review}", [ReviewController::class, 'destroy']);
 });
+
 Route::get("/video", [VideoController::class, 'index']);
+Route::get("/video/{user_id}", [VideoController::class, 'show']);
+
 // Public Routes
-Route::post("/auth/signup", [AuthController::class, "register"]);
-Route::post("/auth/signin", [AuthController::class, "login"]);
+Route::post("/auth/signup", [AuthController::class, "register"]); // вот роут для регистрации
+Route::post("/auth/signin", [AuthController::class, "login"]); // вот роут для входа
 
 Route::get('/test', function(){
     return view('test_mobile');
