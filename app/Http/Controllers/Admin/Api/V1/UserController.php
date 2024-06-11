@@ -15,12 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(auth()->id() == 1 || aunt()->id() == 2 || aunt()->id() == 3){
-            $userList = User::all();
-            return $userList;
-        } else {
-            return 'you not admin';
-        }
+
     }
 
     /**

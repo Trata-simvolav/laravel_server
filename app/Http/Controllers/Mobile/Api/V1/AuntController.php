@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,7 +36,8 @@ class AuthController extends Controller
             'gender_id' => $fields['genderId'],
             'email' => $fields['email'],
             'password' => bcrypt($fields['password']),
-            'action' => $action->id
+            'action' => $action->id,
+            'securiti'=>true
         ]);
 
         // Mail::to($fields['email'])->send(new RegistrationConfirmedMail());

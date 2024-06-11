@@ -41,10 +41,15 @@ class User extends Authenticatable
         return $this->belongsTo(Gender::class);
     }
 
-    // public function isAdmin()
-    // {
-    //     return $this->is_admin;
-    // }
+    public function isBanned()
+    {
+        return $this->banned;
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 
     /**
      * The attributes that should be hidden for serialization.

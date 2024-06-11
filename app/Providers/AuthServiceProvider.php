@@ -21,14 +21,14 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+    public function boot() //: void
     {
-        // $this->registerPolicies();
+        $this->registerPolicies();
     
-        // Gate::define('delete-token', function ($user) {
-        //     if ($user->isAdmin()){
-        //         return true;
-        //     }
-        // });
+        Gate::define('delete-token', function ($user) {
+            if ($user->isAdmin()){
+                return true;
+            }
+        });
     }
 }
