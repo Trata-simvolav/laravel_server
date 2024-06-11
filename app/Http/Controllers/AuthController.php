@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
+use App\Mail\RegistrationConfirmedMail;
 use App\Models\Api\V1\User;
 use App\Models\Api\V1\Action;
 
@@ -23,18 +25,21 @@ class AuthController extends Controller
             "password" => ["required", "string", "min:6", "max:200"]
         ]); // Вот данные для входа
         
+        $action = Action::create([
+            'storage_type' => 'u',
+            'data' => '[]'
+        ]);
+
         $user = User::create([ 
             'fio' => $fields['fio'],
             'birthday' => $fields['birthday'], 
             'gender_id' => $fields['genderId'],
             'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+            'action' => $action->id
         ]);
 
-        $action = Action::create([
-            'storage_type' => 'u',
-            'data' => '[]'
-        ]);
+        // Mail::to($fields['email'])->send(new RegistrationConfirmedMail());
 
         $token = $user->createToken("token")->plainTextToken;
 

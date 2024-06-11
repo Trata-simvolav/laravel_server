@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('identification');
             $table->string('videoname');
             $table->string('discription');
-            $table->string('NOTNAME');
+            $table->string('subtitle');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,7 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        if(auth()->id() == 1 || aunt()->id() == 2 || aunt()->id() == 3){
+            $userList = User::all();
+            return $userList;
+        } else {
+            return 'you not admin';
+        }
     }
 
     /**
@@ -35,16 +40,17 @@ class UserController extends Controller
             $gender = Gender::find($user->gender_id);
 
             $data = [
-                'id' => $user->id,
+                // 'id' => $user->id,
                 'fio' => $user->fio,
                 'email' => $user->email,
                 'birthday' => $user->birthday,
+                'password' => $user->password,
                 'gender' => [
                     'id' => $gender->id,
                     'name' => $gender->name
                 ],
-                'reviewCount' => $user->reviews()->count(),
-                'ratingCount' => $user->ratings()->count()
+                // 'reviewCount' => $user->reviews()->count(),
+                // 'ratingCount' => $user->ratings()->count()
             ];
 
             return response()->json($data);
@@ -66,10 +72,13 @@ class UserController extends Controller
             'fio' => ['required', 'min:2', 'max:150'],
             'email' => ['required', 'email', 'min:4', 'max:50', Rule::unique('users', 'email')],
             'birthday' => ['required', 'date'],
+            'password' => ['required', 'min:6', 'max:200'],
             'genderId' => ['required', Rule::exists('genders', 'id')]
         ]);
 
-        $id = auth()->id();
+        $request['email'] = substr($request['email'], 12);
+
+        $id = auth()->id(); //  $request['id']
         $user = User::find($id);
         $user->update($request->all());
         return response([

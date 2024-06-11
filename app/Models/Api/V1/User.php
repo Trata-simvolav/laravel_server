@@ -22,7 +22,8 @@ class User extends Authenticatable
         'birthday',
         'gender_id',
         'email',
-        'password'
+        'password',
+        'action'
     ];
 
     // public function reviews()
@@ -39,6 +40,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Gender::class);
     }
+
+    // public function isAdmin()
+    // {
+    //     return $this->is_admin;
+    // }
 
     /**
      * The attributes that should be hidden for serialization.

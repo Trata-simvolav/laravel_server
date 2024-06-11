@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('fio', 150)->nullable(false);
             $table->date('birthday')->nullable();
+            $table->string('action', 150)->nullable(false);
             $table->foreignId('gender_id')->constrained('genders');
             $table->string("email", 50)->nullable(false)->unique();
             $table->string('password', 255)->nullable(false);

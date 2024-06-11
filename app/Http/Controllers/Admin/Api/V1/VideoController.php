@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Api\V1\Video;
 use App\Models\Api\V1\Action;
@@ -14,7 +15,12 @@ class VideoController extends Controller
 {
     public function show($user_id)
     {
-        $videos = Video::where('user_id', $user_id)->get();
+        // $user = Video::FindOrFail($user_id); $user->isAdmin() 
+        if($user_id == 1 || $user_id == 2 || $user_id == 3){ 
+            $videos = Video::all(); 
+        } else {
+            $videos = Video::where('user_id', $user_id)->get();
+        }
     
         if ($videos->isEmpty()) {
             return response()->json(['error' => 'No videos found for the given user_id'], 404);
@@ -27,7 +33,9 @@ class VideoController extends Controller
             $video->json_data = $json_data;
             $result[] = $video;
         }
-    
+
+        // Log::info('SHOW in class VideoController'); 
+
         return response()->json($result);
     }
     
@@ -35,13 +43,14 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id' => 'required|int',
             'identification' => 'required|string',
             'videoname' => 'required|string',
             'discription' => 'required|string',
             'subtitle' => 'required|string'
         ]);
 
-        $userId = null; // auth()->id()
+        $userId =$request['user_id']; //   auth()->id()
         
         $action_id = null;
         // Action::create([
@@ -49,9 +58,11 @@ class VideoController extends Controller
         //     'data' => []
         // ]);
 
+        // $request['subtitle'] = json_encode(explode(" ", $request['subtitle']));
+
         $video_id = Video::create([
             'user_id' => $userId,
-            'action_id' => $action_id,
+            'action_id' => $action_id, //->id
             'identification' => $request['identification'],
             'videoname' => $request['videoname'],
             'discription' => $request['discription'],
