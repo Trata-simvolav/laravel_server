@@ -1,6 +1,6 @@
 
 <?php
-// 0.2.0
+// 0.2.1
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum','checkIfBanned']], function () {
 // ------------------------------ USER ----------------------------//
     Route::get("/users/{user}", [UserController::class, 'show'])->name('dive_information_about_user');
     Route::put("/user", [UserController::class, 'update'])->name('update_information');
+    Route::put("/user/update_password", [UserController::class, 'update_password'])->name('update_password');
     Route::delete("/users", [UserController::class, 'destroy'])->name('delete_account');
 // ------------------------------ ADMIN ----------------------------//
     Route::get("/users", [AdminController::class, 'index'])->name('give_all_users');

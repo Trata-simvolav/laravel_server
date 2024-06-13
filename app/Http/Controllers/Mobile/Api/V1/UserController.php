@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Mobile\Api\V1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+
 use App\Models\Api\V1\Gender;
 use App\Models\Api\V1\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -15,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -35,16 +37,17 @@ class UserController extends Controller
             $gender = Gender::find($user->gender_id);
 
             $data = [
-                'id' => $user->id,
+                // 'id' => $user->id,
                 'fio' => $user->fio,
                 'email' => $user->email,
                 'birthday' => $user->birthday,
+                'password' => $user->password,
                 'gender' => [
                     'id' => $gender->id,
                     'name' => $gender->name
                 ],
-                'reviewCount' => $user->reviews()->count(),
-                'ratingCount' => $user->ratings()->count()
+                // 'reviewCount' => $user->reviews()->count(),
+                // 'ratingCount' => $user->ratings()->count()
             ];
 
             return response()->json($data);
@@ -66,16 +69,43 @@ class UserController extends Controller
             'fio' => ['required', 'min:2', 'max:150'],
             'email' => ['required', 'email', 'min:4', 'max:50', Rule::unique('users', 'email')],
             'birthday' => ['required', 'date'],
-            'genderId' => ['required', Rule::exists('genders', 'id')],
-            "password" => bcrypt(["required", "string", "min:6", "max:200"])
+            'password' => ['required', 'min:6', 'max:200'],
+            'genderId' => ['required', Rule::exists('genders', 'id')]
         ]);
 
-            $id = auth()->id();
-            $user = User::find($id);
-            $user->update($request->all());
-            return response([
-                'status' => "success"
-            ]);
+        $request['email'] = substr($request['email'], 12);
+
+        $id = auth()->id(); //  $request['id']
+        $user = User::find($id);
+        $user->update($request->all());
+        return response([
+            'status' => "success"
+        ]);
+    }
+
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => ['required', 'min:6', 'max:200'],
+            'newPassword' => ['required', 'min:6', 'max:200']
+        ]);
+
+        $id = auth()->id(); //  $request['id']
+        $user = User::find($id);
+
+        if (!$user || !Hash::check($request['currentPassword'], $user->password)) {
+            return \response([
+                "status" => "invalid",
+                "message" => "Wrong password"
+            ], 401);
+        }
+
+        $password = ['password' => bcrypt($request['newPassword'])];
+
+        $user->update($password);
+        return response([
+            'status' => "success"
+        ]);
     }
 
     /**

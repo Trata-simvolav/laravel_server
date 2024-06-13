@@ -16,16 +16,16 @@ class VideoController extends Controller
 {
     public function show($user_id)
     {
-        $user = User::FindOrFail($user_id);
-        if($user->isAdmin()){ // && $user->id == auth()->id()
-            $videos = Video::all(); 
+        $user = User::FindOrFail($user_id);    //Получение данных о пользователе
+        if($user->isAdmin()){                  // проверка, админ ли пользователь
+            $videos = Video::all(); // если да, то отправляем все видео
         } else {
-            $videos = Video::where('user_id', $user_id)->get();
+            $videos = Video::where('user_id', $user_id)->get(); // если нет, то только видео пользователя
         }
     
         if ($videos->isEmpty()) {
             return response()->json(['error' => 'No videos found for the given user_id'], 404);
-        }
+        } // проверка на пустоту
     
         $result = [];
         foreach ($videos as $video) {
@@ -33,9 +33,7 @@ class VideoController extends Controller
             $json_data = $action ? $action->data : null;
             $video->json_data = $json_data;
             $result[] = $video;
-        }
-
-        // Log::info('SHOW in class VideoController'); 
+        } // поле ответа
 
         return response()->json($result);
     }
@@ -44,21 +42,18 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'user_id' => 'required|int',
             'identification' => 'required|string',
             'videoname' => 'required|string',
             'discription' => 'required|string',
             'subtitle' => 'required|string'
-        ]);
+        ]); // валидация данных
 
-        $userId = auth()->id(); // $request['user_id']
+        $userId = auth()->id(); // получения id пользователя, который отправил видео
         
         $action_id = Action::create([
             'storage_type' => 'v',
             'data' => '[]'
-        ]);
-
-        // $request['subtitle'] = json_encode(explode(" ", $request['subtitle']));
+        ]); // создание записи для активностей на видео
 
         $video_id = Video::create([
             'user_id' => $userId,
@@ -67,9 +62,9 @@ class VideoController extends Controller
             'videoname' => $request['videoname'],
             'discription' => $request['discription'],
             'subtitle' => $request['subtitle'],
-        ]);
+        ]); // создание записи о видео в БД
 
-        return response()->json(['message' => 'Video created successfully'], 201);
+        return response()->json(['message' => 'Video created successfully'], 201); // поле ответа
     }
 
     public function destroy($id)

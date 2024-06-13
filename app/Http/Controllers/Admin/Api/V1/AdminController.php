@@ -11,8 +11,8 @@ use PersonalAccessToken;
 class AdminController extends Controller
 {
     public function index(){
-        if(auth()->user()->isAdmin()){
-            $userList = User::all(); // $userList = User::where('security', '!=', true)->get();
+        if(auth()->user()->isAdmin()){ // проверка, админ ли отправил запрос
+            $userList = User::all(); // получения данных о всех пользователях
             return $userList;
         } else {
             return 'you not admin';
@@ -26,42 +26,33 @@ class AdminController extends Controller
     public function update(){}
 
     public function destroy(User $user){
-        $tokens = $user->tokens();
+        $tokens = $user->tokens(); 
         $tokenId = $user->tokens()->first()->id;
-        $token = $tokens->find($tokenId);
-
-        if ($token->tokenable_id !== $user->id) {
+        $token = $tokens->find($tokenId);       // получение токена выбранного пользователя для дальнейшего удаление
+                                             // это не даст ему возможнсть пользоваться проектом
+        if ($token->tokenable_id !== $user->id) { // проверка, тот ли токен взяли
             return response()->json(['error' => 'Token does not belong to this user.'], 403);
         }
 
-        $token->delete();
+        $token->delete(); // удаление токена
 
         $user = User::FindOrFail($user->id);
         if ($user) {
             $user->banned = true;
             $user->save();
-        }
+        } // регистрация блокировки
 
-        return response()->json(['message' => 'User banned']);
+        return response()->json(['message' => 'User banned']); // поле ответа
     }
-
-    // public function banUser($userId)
-    // {
-    //     $user = User::find($userId);
-
-
-    //     return redirect()->back()->with('message', 'User has been banned.');
-    // }
 
     public function unbanUser(User $user)
     {
-        // $user = User::find($userId);
-        if ($user) {
+        if ($user) { 
             $user->banned = false;
             $user->save();
-        }
+        } // регистрация разблокировка
 
-        return response()->json(['message' => 'User unbanned']);
+        return response()->json(['message' => 'User unbanned']); // поле ответа
     }
 
 }

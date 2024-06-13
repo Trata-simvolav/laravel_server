@@ -5,19 +5,19 @@ namespace App\Models\Api\V1;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Video extends Model
+class Words extends Model
 {
     use HasFactory;
 
+    protected $table = 'words';
+
     protected $fillable = [
-        'user_id',
-        'action_id',
-        'identification',
-        'videoname',
-        'discription',
-        'subtitle',
+        'original_word',
         'original_index',
+        'translate_word',
         'translate_index',
+        'think_orig_lang',
+        'think_tran_lang',
     ];
 
     

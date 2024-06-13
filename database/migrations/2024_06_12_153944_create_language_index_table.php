@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos_express', function (Blueprint $table) {
+        Schema::create('language_index', function (Blueprint $table) {
             $table->id();
-            $table->string('filename');
-            $table->string('originalname');
-            $table->string('mimetype');
-            $table->string('size');
-            $table->string('identification');
+            $table->string('name', 150)->nullable(false);
+            $table->string('index', 150)->nullable(false);
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('videos_express');
+        Schema::dropIfExists('language_index');
     }
 };

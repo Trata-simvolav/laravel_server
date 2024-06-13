@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController; // Mobile\Api\V1\
 use App\Http\Controllers\Mobile\Api\V1\UserController;
-
+use App\Http\Controllers\Mobile\Api\V1\SubtitlesController;
 use App\Http\Controllers\Mobile\Api\V1\VideoController; //
 
 /*
@@ -16,24 +16,26 @@ use App\Http\Controllers\Mobile\Api\V1\VideoController; //
 */
 
 // Protected Routs
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum','checkIfBanned']], function () {
     Route::get('/aunt/test', function(){
         return view('test_for_aunt');
     });
+// ------------------------------ SIHNOUT ----------------------------//
+    
+// ------------------------------  ----------------------------//
 });
 
 Route::post("auth/signout", [AuthController::class, 'logout']);
-
-Route::get("/users/{user}", [UserController::class, 'show']);
-Route::put("/users", [UserController::class, 'update']);
-Route::delete("/users", [UserController::class, 'destroy']);
-
-// Route::post("/users/{user}/ratings", [RatingController::class, 'store']);
-// Route::get("/users/{user}/ratings", [RatingController::class, 'index']);
-// Route::delete("/users/{user}/ratings/{rating}", [RatingController::class, 'destroy']);
-
-Route::get("/video", [VideoController::class, 'index']);
-Route::get("/video/{user_id}", [VideoController::class, 'show']);
+// ------------------------------ VIDEO ----------------------------//
+    Route::get("/video", [VideoController::class, 'index']);
+    Route::get("/video/{user_id}", [VideoController::class, 'show']);
+// ------------------------------ USER EDIT ----------------------------//
+    Route::get("/users/{user}", [UserController::class, 'show']);
+    Route::put("/users", [UserController::class, 'update']);
+    Route::put("/user/update_password", [UserController::class, 'update_password'])->name('update_password');
+    Route::delete("/users", [UserController::class, 'destroy']);
+// ------------------------------ SUBTITLE ----------------------------//
+    Route::get("/words/{ident}", [SubtitlesController::class, 'index']); 
 
 // Public Routes
 Route::post("/auth/signup", [AuthController::class, "register"]);

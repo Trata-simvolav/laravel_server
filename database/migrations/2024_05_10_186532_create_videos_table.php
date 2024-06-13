@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('identification');
             $table->string('videoname');
             $table->string('discription');
-            $table->string('subtitle');
+            $table->string('subtitle', 350)->nullable(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviws');
+        Schema::dropIfExists('videos');
     }
 };

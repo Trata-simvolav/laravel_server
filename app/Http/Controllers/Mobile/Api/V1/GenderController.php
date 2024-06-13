@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Mobile\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\V1\Gender;
 use Illuminate\Http\Request;
+
+use App\Models\Api\V1\Gender;
 
 class GenderController extends Controller
 {

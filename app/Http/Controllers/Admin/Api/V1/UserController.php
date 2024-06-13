@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin\Api\V1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+
 use App\Models\Api\V1\Gender;
 use App\Models\Api\V1\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -76,6 +78,31 @@ class UserController extends Controller
         $id = auth()->id(); //  $request['id']
         $user = User::find($id);
         $user->update($request->all());
+        return response([
+            'status' => "success"
+        ]);
+    }
+
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => ['required', 'min:6', 'max:200'],
+            'newPassword' => ['required', 'min:6', 'max:200']
+        ]);
+
+        $id = auth()->id(); //  $request['id']
+        $user = User::find($id);
+
+        if (!$user || !Hash::check($request['currentPassword'], $user->password)) {
+            return \response([
+                "status" => "invalid",
+                "message" => "Wrong password"
+            ], 401);
+        }
+
+        $password = ['password' => bcrypt($request['newPassword'])];
+
+        $user->update($password);
         return response([
             'status' => "success"
         ]);
